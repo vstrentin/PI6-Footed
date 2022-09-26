@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -51,6 +50,85 @@ Widget CustomButton({
         )),
   );
 }
+////////////////////////////////////////////////TELA RESULTADOS///////////////////////////////////////////////////////////////////
+
+class telaResultados extends StatelessWidget {
+  const telaResultados({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Resultados'),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverGrid(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200.0,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+              childAspectRatio: 4.0,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  alignment: Alignment.center,
+                  color: Colors.teal[100 * (index % 9)],
+                  child: Text('Nome do Item $index \n'
+                      'Preço do Item'),
+                );
+              },
+              childCount: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////TELA FAVORITOS///////////////////////////////////////////////////////////////////
+
+class telaFavoritos extends StatelessWidget {
+  const telaFavoritos({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Favoritos'),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverGrid(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200.0,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+              childAspectRatio: 4.0,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  alignment: Alignment.center,
+                  color: Colors.teal[100 * (index % 9)],
+                  child: Text('Nome do Item $index \n'
+                      'Preço do Item'),
+                );
+              },
+              childCount: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class _HomeState extends State<Home> {
   File? _image;
@@ -79,7 +157,7 @@ class _HomeState extends State<Home> {
           child: Column(children: [
             Image.asset(
               'images/pesquisando_mulher.png',
-              scale: 2,
+              scale: 500,
             ),
             SizedBox(height: 10),
             Column(
@@ -94,16 +172,37 @@ class _HomeState extends State<Home> {
                       );
                     },
                     icon: const Icon(Icons.search)),
-                SizedBox(height: 10),
+                //SizedBox(height: 10),
                 CustomButton(
                     title: "Tirar uma Foto",
                     icon: Icons.camera_alt_outlined,
                     onclick: () => (ImageSource.camera)),
-                SizedBox(height: 10),
+                //SizedBox(height: 10),
                 CustomButton(
                   title: "Escolher Da Galeria",
                   icon: Icons.image_outlined,
                   onclick: () => (ImageSource.gallery),
+                ),
+                //SizedBox(height: 10),
+                CustomButton(
+                  title: "Tela Resultados",
+                  icon: Icons.running_with_errors_outlined,
+                  onclick: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const telaResultados()));
+                  },
+                ),
+                CustomButton(
+                  title: "Tela Favoritos",
+                  icon: Icons.running_with_errors_outlined,
+                  onclick: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const telaFavoritos()));
+                  },
                 )
               ],
             )
