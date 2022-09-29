@@ -1,7 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -104,12 +106,47 @@ class _HomeState extends State<Home> {
                   title: "Escolher Da Galeria",
                   icon: Icons.image_outlined,
                   onclick: () => (ImageSource.gallery),
-                )
+                ),
+                SizedBox(height: 10),
+                CustomButton(
+                  title: "Pesquisar",
+                  icon: Icons.search,
+                  onclick: (_getProdutoByDescricao),
+                ),
+                
               ],
             )
           ]),
         ),
       ),
     );
+  }
+
+  final String  _baseUrl = "serpapi.com";
+  final String  _characterPath = "/search.json";
+  final Map<String, String> _parametros = <String, String> {
+    'q':'tenis',
+    'tbm':'shop',
+    'location':'Sao Paulo',
+    'hl':'pt-br',
+    'gl':'br',
+    'api_key':'61e6e56345570d0bf6b3634f6fad08c80a5c4faadd85230dbe373037f098ceeb',
+  };
+
+  _getProdutoByDescricao() async {
+
+    var uri = Uri.http(_baseUrl, _characterPath, _parametros);
+
+    print(uri);
+
+    http.Response response;
+    response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      print (response.body);
+      //Map<String, dynamic> retorno = convert.jsonDecode(response.body);
+    } else {
+      print("Erro: ${response.statusCode.toString()}");
+    }
   }
 }
