@@ -1,6 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pi6/login.dart';
+import 'package:firebase_dart/auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -129,8 +133,89 @@ class telaFavoritos extends StatelessWidget {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+///  ///Teste do Home do professor com o login
+///
 class _HomeState extends State<Home> {
+  String _nome = "carregando...";
+  String _email = "carregando...";
+  String _cpf = "carregando...";
+  //deslogar
+  _deslogar() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signOut();
+    setState(() {
+      //deslogar para a pagina de login
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => Login()), (route) => false);
+      //Navigator.pop(context);
+    });
+  }
+
+  String _getDate() {
+    var now = new DateTime.now();
+    var dateFormat = new DateFormat('yyyy-MM-dd hh:mm:ss');
+    //var dateFormat = new DateFormat('MMMM-yyyy');
+    var newFormat = dateFormat;
+    //String formattedDate = formatter.format(now);
+    String dataFormatada = newFormat.format(now);
+    return dataFormatada;
+  }
+
+  _criarPost() async {
+    FirebaseDatabase db = FirebaseDatabase.instance;
+    User? usuarioLogado = FirebaseAuth.instance.currentUser;
+    String dataFormat = _getDate();
+    Map<String, dynamic> post = {
+      'Usuario': _nome,
+      'Horario': dataFormat,
+      'conteudo': 'Qualquer coisa, qualquer coisa'
+    };
+    await db
+        .ref("usuarios")
+        .child(usuarioLogado!.uid)
+        .child("posts")
+        .child(dataFormat)
+        .set(post);
+  }
+
+  _userDataLoading() async {
+    User? usuarioLogado = FirebaseAuth.instance.currentUser;
+    FirebaseDatabase db = FirebaseDatabase.instance;
+
+    db.ref("usuarios").child(usuarioLogado!.uid).onValue.listen((event) {
+      var snapshot = event.snapshot;
+      String _nomeR = (snapshot.value as dynamic)["nome"];
+      String _emailR = (snapshot.value as dynamic)["email"];
+      String _cpfR = (snapshot.value as dynamic)["cpf"];
+      print("\n\n VEIO $_nome \n\n");
+
+      setState(() {
+        if (_emailR != null) {
+          if (_nomeR != null) {
+            if (_cpfR != null) {
+              _nome = "$_nomeR";
+              _email = _emailR;
+              _cpf = _cpfR;
+            } else {
+              print("Não carregou");
+            }
+          }
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //_deslogar();
+    _userDataLoading();
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+  ///
+
   File? _image;
 
   Future getImage(ImageSource source) async {
@@ -186,7 +271,7 @@ class _HomeState extends State<Home> {
                 //SizedBox(height: 10),
                 CustomButton(
                   title: "Tela Resultados",
-                  icon: Icons.running_with_errors_outlined,
+                  icon: Icons.view_stream_outlined,
                   onclick: () {
                     Navigator.push(
                         context,
@@ -196,14 +281,22 @@ class _HomeState extends State<Home> {
                 ),
                 CustomButton(
                   title: "Tela Favoritos",
-                  icon: Icons.running_with_errors_outlined,
+                  icon: Icons.favorite_outline,
                   onclick: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const telaFavoritos()));
                   },
-                )
+                ),
+                CustomButton(
+                  title: "Tela Login",
+                  icon: Icons.login_outlined,
+                  onclick: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Login()));
+                  },
+                ),
               ],
             )
           ]),
