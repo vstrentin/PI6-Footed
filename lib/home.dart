@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi6/getProdutoByDescricao.dart';
 import 'dart:convert' as convert;
+
 
 
 class Home extends StatefulWidget {
@@ -56,6 +58,7 @@ Widget CustomButton({
 
 class _HomeState extends State<Home> {
   File? _image;
+  TextEditingController _controllerDesc = TextEditingController();
 
   Future getImage(ImageSource source) async {
     final image = await ImagePicker().pickImage(source: source);
@@ -69,6 +72,7 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -87,15 +91,20 @@ class _HomeState extends State<Home> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      showSearch(
-                        context: context,
-                        delegate: MySearchDelegate(),
-                      );
-                    },
-                    icon: const Icon(Icons.search)),
+              children: <Widget>[
+                Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: TextField(
+                  controller: _controllerDesc,
+                  autofocus: true,
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 20),
+                  decoration: InputDecoration(
+                    hintText: "Product Description...",
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                ),
+              ),
                 SizedBox(height: 10),
                 CustomButton(
                     title: "Tirar uma Foto",
@@ -113,7 +122,6 @@ class _HomeState extends State<Home> {
                   icon: Icons.search,
                   onclick: (_getProdutoByDescricao),
                 ),
-                
               ],
             )
           ]),
@@ -121,32 +129,16 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
-  final String  _baseUrl = "serpapi.com";
-  final String  _characterPath = "/search.json";
-  final Map<String, String> _parametros = <String, String> {
-    'q':'tenis',
-    'tbm':'shop',
-    'location':'Sao Paulo',
-    'hl':'pt-br',
-    'gl':'br',
-    'api_key':'61e6e56345570d0bf6b3634f6fad08c80a5c4faadd85230dbe373037f098ceeb',
-  };
-
+  
   _getProdutoByDescricao() async {
+    String _description = _controllerDesc.text;
+    if (!_description.isEmpty) {
 
-    var uri = Uri.http(_baseUrl, _characterPath, _parametros);
+      GetProdutoByDescricao _buscarProdutos = GetProdutoByDescricao(_description);
+      _buscarProdutos.getProdutoByDescricao();
 
-    print(uri);
-
-    http.Response response;
-    response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      print (response.body);
-      //Map<String, dynamic> retorno = convert.jsonDecode(response.body);
     } else {
-      print("Erro: ${response.statusCode.toString()}");
+      print("Sem Descricao");
     }
   }
 }
