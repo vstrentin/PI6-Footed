@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-import 'package:pi6/pojo/produto.dart';
+import 'package:pi6/pojo/Product.dart';
 
 class GetProdutoByDescricao {
 
@@ -32,32 +32,11 @@ class GetProdutoByDescricao {
     response = await http.get(uri);
 
     if (response.statusCode == 200) {
+
+      Product produtos = Product.fromJson(convert.jsonDecode(response.body));//convert.jsonDecode(response.body);
+      //print(produtos.shoppingresults.length);
       
-
-      Map<String, dynamic> jsonMap = convert.jsonDecode(response.body);
-      //print (response.body);
-      //print (jsonMap);
-
-      //print (jsonMap.keys);     
-      jsonMap.remove('search_metadata');
-      jsonMap.remove('search_parameters');
-      jsonMap.remove('search_information');
-      jsonMap.remove('pagination');
-      jsonMap.remove('serpapi_pagination');
-      jsonMap.remove('ads');
-      jsonMap.remove('filters');
-      jsonMap.remove('inline_shopping_results');
-      
-      //print (response.body);
-      //print (jsonMap.keys);
-      //print (jsonMap);
-
-      print (convert.jsonEncode(jsonMap));
-
-      List<InlineShoppingResult> listaProduto = convert.jsonDecode(convert.jsonEncode(jsonMap));
-      //listaProduto = (jsonMap as List).map((item) => InlineShoppingResult.fromJson(item)).toList();
-
-      return response.body;
+      return produtos;
       
     } else {
       print("Erro: ${response.statusCode.toString()}");
