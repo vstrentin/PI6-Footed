@@ -57,4 +57,8 @@ class Product {
         data['serpapi_pagination'] = serpapipagination!.toJson();
         return data;
     }
+
+    getShoppingResult() {
+      return shoppingresults;
+    }
 }

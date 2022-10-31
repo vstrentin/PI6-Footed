@@ -2,8 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi6/Controller/DialogExample.dart';
+import 'package:pi6/Routes/ListaProduto.dart';
 import 'package:pi6/getProdutoByDescricao.dart';
 import 'dart:convert' as convert;
+
+import 'package:pi6/pojo/ShoppingResult.dart';
 
 
 
@@ -77,7 +81,21 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(108, 69, 7, 202),
-        title: Text("Footed"),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_backspace_rounded),
+          onPressed: () {},
+        ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {}, 
+            icon: Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {}, 
+            icon: Icon(Icons.supervisor_account),
+          )
+        ],
       ),
       body: Center(
         child: Container(
@@ -93,18 +111,18 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: TextField(
-                  controller: _controllerDesc,
-                  autofocus: true,
-                  keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(fontSize: 20),
-                  decoration: InputDecoration(
-                    hintText: "Product Description...",
-                    prefixIcon: Icon(Icons.search),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextField(
+                    controller: _controllerDesc,
+                    autofocus: true,
+                    keyboardType: TextInputType.emailAddress,
+                    style: TextStyle(fontSize: 20),
+                    decoration: InputDecoration(
+                      hintText: "Product Description...",
+                      prefixIcon: Icon(Icons.search),
+                    ),
                   ),
                 ),
-              ),
                 SizedBox(height: 10),
                 CustomButton(
                     title: "Tirar uma Foto",
@@ -134,11 +152,15 @@ class _HomeState extends State<Home> {
     String _description = _controllerDesc.text;
     if (!_description.isEmpty) {
 
-      GetProdutoByDescricao _buscarProdutos = GetProdutoByDescricao(_description);
-      _buscarProdutos.getProdutoByDescricao();
+      GetProdutoByDescricao buscarProdutos = GetProdutoByDescricao(_description);
+      List<ShoppingResult> products = buscarProdutos.getProdutoByDescricao(context);
+      
+      //print(products.length);
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => ListaProduto(products)));
 
     } else {
-      print("Sem Descricao");
+      DialogExample dialogExample = DialogExample();
+      dialogExample.showDialogErro(context, "Erro!" , "Informe uma descrição para o pesquisa.");
     }
   }
 }

@@ -42,4 +42,16 @@ class ShoppingResult {
         data['delivery'] = delivery;
         return data;
     }
+
+    getThumbnail(){
+      return thumbnail.toString();
+    }
+
+    getTitle(){
+      return title.toString();
+    }
+
+    getPrice(){
+      return price.toString();
+    }
 }
