@@ -31,7 +31,7 @@ class GetProdutoByDescricao {
     'hl':'pt-br',
     'gl':'br',
     'api_key':'61e6e56345570d0bf6b3634f6fad08c80a5c4faadd85230dbe373037f098ceeb',
-    'num' : '5'
+    'num' : '10'
     };
 
     var uri = Uri.http(_baseUrl, _characterPath, _parametros);
@@ -41,7 +41,7 @@ class GetProdutoByDescricao {
     if (response.statusCode == 200) {
       try{
 
-        Product produtos = Product.fromJson(convert.jsonDecode(response.body));//convert.jsonDecode(response.body);
+        late Product produtos = Product.fromJson(convert.jsonDecode(response.body));//convert.jsonDecode(response.body);
         print(produtos.getShoppingResult());
         //return produtos.getShoppingResult();
 

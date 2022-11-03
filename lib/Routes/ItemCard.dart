@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pi6/Routes/DetalheProduto/Detalhes.dart';
+import 'package:pi6/home.dart';
 import 'package:pi6/pojo/ShoppingResult.dart';
 
 class ItemCard extends StatelessWidget {
@@ -34,7 +36,7 @@ class ItemCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
           child: Text(
-              shoppingResult?.getTitle() == null ? "Tenis Nike Pro CR7" : shoppingResult?.getTitle(),
+              shoppingResult?.title == null ? "Tenis Nike Pro CR7" : shoppingResult?.getTitle(),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 10.0,
@@ -48,7 +50,12 @@ class ItemCard extends StatelessWidget {
               color: Colors.black,
               fontSize: 10.0,
               )
-          )
+          ),
+          CustomButton(
+                    title: "explorar",
+                    icon: Icons.search,
+                    onclick: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Detalhes())),
+                  )
       ],
     );
   }

@@ -59,34 +59,35 @@ class _listaProdutoState extends State<ListaProduto> {
         ],
       ),
       body: Center(
-         child: Column(
-           children: <Widget>[
-             CustomButton(
-                   title: "Pesquisar",
-                   icon: Icons.search,
-                   onclick: (() => Navigator.push(context, MaterialPageRoute(builder: (context) => Detalhes())))
-                 ),
-           ],
-         ),
-        //  child: Expanded(
-        //    child: Padding(
-        //      padding: const EdgeInsets.symmetric(horizontal: 8),
-        //      child: GridView.builder(
-        //        itemCount: widget.listShoppingResult.length,
-        //        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //          crossAxisCount: 2,
-        //          mainAxisSpacing: 3,
-        //          crossAxisSpacing: 10,
-        //          childAspectRatio: 0.75,
-        //        ), 
-        //        itemBuilder: (context, index) => 
-        //          ItemCard(
-        //            widget.listShoppingResult[index],
-        //            //press: {} => Navegator.push(context, MaterialPageRoute(builder: (context) => Detalhes(widget.listShoppingResult[index])))
+        //  child: Column(
+        //    children: <Widget>[
+        //      CustomButton(
+        //            title: "Pesquisar",
+        //            icon: Icons.search,
+        //            onclick: (() => Navigator.push(context, MaterialPageRoute(builder: (context) => Detalhes())))
         //          ),
-        //      )
-        //    ),
+        //    ],
         //  ),
+          child: Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: GridView.builder(
+                itemCount: widget.listShoppingResult.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 3,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 0.75,
+                ), 
+                itemBuilder: (context, index) => 
+                  ItemCard(
+                    widget.listShoppingResult[index],
+                    //press: {} => Navegator.push(context, MaterialPageRoute(builder: (context) => Detalhes(widget.listShoppingResult[index])))
+                    
+                  ),
+              ),
+            ),
+          ),
       )
     );
   }
