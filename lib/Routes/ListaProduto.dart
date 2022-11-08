@@ -41,7 +41,7 @@ class _listaProdutoState extends State<ListaProduto> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(108, 69, 7, 202),
+        backgroundColor:Colors.purple,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.keyboard_backspace_rounded),
@@ -59,15 +59,6 @@ class _listaProdutoState extends State<ListaProduto> {
         ],
       ),
       body: Center(
-        //  child: Column(
-        //    children: <Widget>[
-        //      CustomButton(
-        //            title: "Pesquisar",
-        //            icon: Icons.search,
-        //            onclick: (() => Navigator.push(context, MaterialPageRoute(builder: (context) => Detalhes())))
-        //          ),
-        //    ],
-        //  ),
           child: Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),

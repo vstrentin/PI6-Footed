@@ -28,7 +28,7 @@ class ItemCard extends StatelessWidget {
           height: 180,
           // width: 160,
           decoration: BoxDecoration(
-            color: Color.fromARGB(108, 69, 7, 202),
+            color: Colors.purple,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Image(image: NetworkImage(shoppingResult?.getThumbnail() == null ? "https://i.pinimg.com/236x/dc/53/36/dc5336ecae262d3172c3483521964d9a.jpg" : shoppingResult?.getThumbnail())),
@@ -54,7 +54,7 @@ class ItemCard extends StatelessWidget {
           CustomButton(
                     title: "explorar",
                     icon: Icons.search,
-                    onclick: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Detalhes())),
+                    onclick: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Detalhes(produto: shoppingResult))),
                   )
       ],
     );

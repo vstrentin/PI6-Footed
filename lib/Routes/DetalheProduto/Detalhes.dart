@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pi6/Controller/dialogExample.dart';
 import 'package:pi6/Routes/BuilderAppBar.dart';
 import 'package:pi6/Routes/DetalheProduto/ProductTitleWithImage.dart';
 import 'package:pi6/pojo/ShoppingResult.dart';
+import 'package:pi6/home.dart';
 
 class Detalhes extends StatelessWidget {
 
-  //final ShoppingResult produto;
+  final ShoppingResult? produto;
 
-  //const Detalhes({super.key, required this.produto});
+  const Detalhes({super.key, required this.produto});
 
   @override
   Widget build(BuildContext context){
@@ -54,24 +56,98 @@ class Detalhes extends StatelessWidget {
                       child: Column(children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Text(
-                              "Avaliação: \n ",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            Text(
-                              "4.4",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold
+                            Expanded(
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Loja:\n",
+                                      style: TextStyle(color: Colors.black),
+                                      ),
+                                    TextSpan(
+                                      text: produto?.getSource() == null ? 'Desconhecida' : produto?.getSource(),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    )
+                                  ]
+                                )
                               ),
-                            )
+                            ),
+                            IconButton(
+                              onPressed: () {_adicionarFavorito(context);},
+                              icon: Icon(Icons.star_rounded),
+                              color: Colors.yellow,
+                            ),
+                            IconButton(
+                              onPressed: () {_adicionarFavorito(context);},
+                              icon: Icon(Icons.favorite),
+                              color: Colors.red,
+                            ),
+                            IconButton(
+                              onPressed: () {_adicionarFavorito(context);},
+                              icon: Icon(Icons.shopping_cart),
+                              color: Colors.blue,
+                            ),
                           ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: "Avaliação:\n",
+                                        style: TextStyle(color: Colors.black),
+                                        ),
+                                      TextSpan(
+                                        text: "5.0",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                      )
+                                    ]
+                                  )
+                                ),
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Delivery:\n",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    TextSpan(
+                                      text: produto?.getDelivery() == null ? "Sem Informações" : produto?.getDelivery(),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    )
+                                  ]
+                                )
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          child: CustomButton(
+                            icon: Icons.screen_share,
+                            onclick: () => {},
+                            title: "   Ir Para Loja"                    
+                          ),
                         )
                       ]),
-                      //Icon
                     ),
-                    ProductTitleWithImage()
+                    ProductTitleWithImage(produto: produto)
                   ],
                 ),
               )
@@ -80,6 +156,11 @@ class Detalhes extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _adicionarFavorito(BuildContext context) async {
+    DialogExample dialog = DialogExample();
+    dialog.showDialogSuccess(context, "Sucesso", "Item adicionado aos favorito!");
   }
 
 }

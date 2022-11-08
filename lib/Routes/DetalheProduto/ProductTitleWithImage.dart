@@ -4,12 +4,9 @@ import 'package:pi6/pojo/ShoppingResult.dart';
 
 class ProductTitleWithImage extends StatelessWidget {
 
-  // final ShoppingResult produto;
+   final ShoppingResult? produto;
 
-  // const ProductTitleWithImage({
-  //   required this.produto,
-    
-  // })
+   const ProductTitleWithImage({ required this.produto,});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +19,7 @@ class ProductTitleWithImage extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
           Text(
-            "Tenis Nike Pro CR7",
+            produto?.getTitle() == null ? "Tenis Nike Pro CR7" : produto?.getTitle(),
             style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
@@ -36,11 +33,11 @@ class ProductTitleWithImage extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "Preco:\n",
+                      text: "Preço:\n",
                       style: TextStyle(color: Colors.white),
                       ),
                     TextSpan(
-                      text: "RS 30.99",
+                      text: produto!.getPrice() == null ? "RS 30.99" : produto?.getPrice(),
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -52,7 +49,7 @@ class ProductTitleWithImage extends StatelessWidget {
               ),
               SizedBox(width: 10),
               Expanded(child: Image(
-                image: NetworkImage("https://i.pinimg.com/236x/dc/53/36/dc5336ecae262d3172c3483521964d9a.jpg"),
+                image: NetworkImage(produto?.getThumbnail() == null ? "https://i.pinimg.com/236x/dc/53/36/dc5336ecae262d3172c3483521964d9a.jpg" : produto?.getThumbnail()),
                 fit: BoxFit.fitWidth,
               ))
             ],

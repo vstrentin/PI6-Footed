@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(108, 69, 7, 202),
+        backgroundColor:Colors.purple,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.keyboard_backspace_rounded),
@@ -139,6 +139,7 @@ class _HomeState extends State<Home> {
                   title: "Pesquisar",
                   icon: Icons.search,
                   onclick: (_getProdutoByDescricao),
+                  
                 ),
               ],
             )

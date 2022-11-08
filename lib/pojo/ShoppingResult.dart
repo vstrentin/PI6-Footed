@@ -54,4 +54,12 @@ class ShoppingResult {
     getPrice(){
       return price.toString();
     }
+
+    getSource(){
+      return source.toString();
+    }
+
+    getDelivery(){
+      return delivery.toString();
+    }
 }
