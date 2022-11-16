@@ -1,6 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:pi6/Controller/DialogExample.dart';
+import 'package:pi6/Routes/ListaProduto.dart';
+import 'package:pi6/getProdutoByDescricao.dart';
+import 'dart:convert' as convert;
+
+import 'package:pi6/pojo/ShoppingResult.dart';
+
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -132,6 +141,7 @@ class telaFavoritos extends StatelessWidget {
 
 class _HomeState extends State<Home> {
   File? _image;
+  TextEditingController _controllerDesc = TextEditingController();
 
   Future getImage(ImageSource source) async {
     final image = await ImagePicker().pickImage(source: source);
@@ -145,11 +155,26 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(108, 69, 7, 202),
-        title: Text("Footed"),
+        backgroundColor:Colors.purple,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_backspace_rounded),
+          onPressed: () {},
+        ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {}, 
+            icon: Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {}, 
+            icon: Icon(Icons.supervisor_account),
+          )
+        ],
       ),
       body: Center(
         child: Container(
@@ -163,16 +188,21 @@ class _HomeState extends State<Home> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      showSearch(
-                        context: context,
-                        delegate: MySearchDelegate(),
-                      );
-                    },
-                    icon: const Icon(Icons.search)),
-                //SizedBox(height: 10),
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextField(
+                    controller: _controllerDesc,
+                    autofocus: true,
+                    keyboardType: TextInputType.emailAddress,
+                    style: TextStyle(fontSize: 20),
+                    decoration: InputDecoration(
+                      hintText: "Product Description...",
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
                 CustomButton(
                     title: "Tirar uma Foto",
                     icon: Icons.camera_alt_outlined,
@@ -183,32 +213,34 @@ class _HomeState extends State<Home> {
                   icon: Icons.image_outlined,
                   onclick: () => (ImageSource.gallery),
                 ),
-                //SizedBox(height: 10),
+                SizedBox(height: 10),
                 CustomButton(
-                  title: "Tela Resultados",
-                  icon: Icons.running_with_errors_outlined,
-                  onclick: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const telaResultados()));
-                  },
+                  title: "Pesquisar",
+                  icon: Icons.search,
+                  onclick: (_getProdutoByDescricao),
+                  
                 ),
-                CustomButton(
-                  title: "Tela Favoritos",
-                  icon: Icons.running_with_errors_outlined,
-                  onclick: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const telaFavoritos()));
-                  },
-                )
               ],
             )
           ]),
         ),
       ),
     );
+  }
+  
+  _getProdutoByDescricao() async {
+    String _description = _controllerDesc.text;
+    if (!_description.isEmpty) {
+
+      GetProdutoByDescricao buscarProdutos = GetProdutoByDescricao(_description);
+      List<ShoppingResult> products = buscarProdutos.getProdutoByDescricao(context);
+      
+      //print(products.length);
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => ListaProduto(products)));
+
+    } else {
+      DialogExample dialogExample = DialogExample();
+      dialogExample.showDialogErro(context, "Erro!" , "Informe uma descrição para o pesquisa.");
+    }
   }
 }
