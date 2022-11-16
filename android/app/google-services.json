@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "861231564946",
+    "project_id": "footed-pi6",
+    "storage_bucket": "footed-pi6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861231564946:android:cb9b7f666886903dc9be4b",
+        "android_client_info": {
+          "package_name": "com.example.pi6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861231564946-1r3cc72i7mjo7bic1094ruaehou0au4i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0txbg7mnQHlxPRmhe84eX_XeYUiW6IAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "861231564946-1r3cc72i7mjo7bic1094ruaehou0au4i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
