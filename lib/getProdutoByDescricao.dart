@@ -40,7 +40,7 @@ class GetProdutoByDescricao {
 
     if (response.statusCode == 200) {
       try{
-
+        print(response.body);
         late Product produtos = Product.fromJson(convert.jsonDecode(response.body));//convert.jsonDecode(response.body);
         print(produtos.getShoppingResult());
         //return produtos.getShoppingResult();

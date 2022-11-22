@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:pi6/Controller/dialogExample.dart';
 import 'package:pi6/Routes/BuilderAppBar.dart';
 import 'package:pi6/Routes/DetalheProduto/ProductTitleWithImage.dart';
 import 'package:pi6/pojo/ShoppingResult.dart';
 import 'package:pi6/home.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class Detalhes extends StatelessWidget {
 
@@ -21,7 +24,8 @@ class Detalhes extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.keyboard_backspace_rounded),
-          onPressed: () {},
+          onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));},
+          
         ),
         actions: <Widget>[
           IconButton(
@@ -141,7 +145,7 @@ class Detalhes extends StatelessWidget {
                         SizedBox(
                           child: CustomButton(
                             icon: Icons.screen_share,
-                            onclick: () => {},
+                            onclick: () => {_direcionarLoja(produto?.getLink())},
                             title: "   Ir Para Loja"                    
                           ),
                         )
@@ -161,6 +165,28 @@ class Detalhes extends StatelessWidget {
   _adicionarFavorito(BuildContext context) async {
     DialogExample dialog = DialogExample();
     dialog.showDialogSuccess(context, "Sucesso", "Item adicionado aos favorito!");
+  }
+
+  Future<void> _direcionarLoja(String linkLoja) async {
+    print(linkLoja);
+
+    if(await canLaunchUrlString(linkLoja)) {
+      launchUrlString(linkLoja);
+    }
+
+    // FlutterWebBrowser.openWebPage(
+    //   url: linkLoja,
+    //   customTabsOptions: const CustomTabsOptions(
+    //     colorScheme: CustomTabsColorScheme.dark,
+    //     toolbarColor: Colors.deepPurple,
+    //     secondaryToolbarColor: Colors.green,
+    //     navigationBarColor: Colors.amber,
+    //     shareState: CustomTabsShareState.on,
+    //     instantAppsEnabled: true,
+    //     showTitle: true,
+    //     urlBarHidingEnabled: true,
+    //   )
+    // );
   }
 
 }

@@ -154,7 +154,7 @@ class _HomeState extends State<Home> {
     if (!_description.isEmpty) {
 
       GetProdutoByDescricao buscarProdutos = GetProdutoByDescricao(_description);
-      List<ShoppingResult> products = buscarProdutos.getProdutoByDescricao(context);
+      buscarProdutos.getProdutoByDescricao(context);
       
       //print(products.length);
       //Navigator.push(context, MaterialPageRoute(builder: (context) => ListaProduto(products)));

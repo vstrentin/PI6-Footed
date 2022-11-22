@@ -62,4 +62,8 @@ class ShoppingResult {
     getDelivery(){
       return delivery.toString();
     }
+
+    getLink(){
+      return link.toString();
+    }
 }

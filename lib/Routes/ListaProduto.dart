@@ -45,7 +45,7 @@ class _listaProdutoState extends State<ListaProduto> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.keyboard_backspace_rounded),
-          onPressed: () {},
+          onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));},
         ),
         actions: <Widget>[
           IconButton(
