@@ -173,20 +173,6 @@ class Detalhes extends StatelessWidget {
     if(await canLaunchUrlString(linkLoja)) {
       launchUrlString(linkLoja);
     }
-
-    // FlutterWebBrowser.openWebPage(
-    //   url: linkLoja,
-    //   customTabsOptions: const CustomTabsOptions(
-    //     colorScheme: CustomTabsColorScheme.dark,
-    //     toolbarColor: Colors.deepPurple,
-    //     secondaryToolbarColor: Colors.green,
-    //     navigationBarColor: Colors.amber,
-    //     shareState: CustomTabsShareState.on,
-    //     instantAppsEnabled: true,
-    //     showTitle: true,
-    //     urlBarHidingEnabled: true,
-    //   )
-    // );
   }
 
 }
